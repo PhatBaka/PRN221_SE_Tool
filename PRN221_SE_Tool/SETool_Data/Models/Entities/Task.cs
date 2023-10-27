@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
+namespace SETool_Data.Models.Entities
+{
+    public partial class Task
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string Description { get; set; }
+        public DateTime? AssignedDate { get; set; }
+        public int? AssignedBy { get; set; }
+        public string Resouce { get; set; }
+        public int? MilestoneId { get; set; }
+        public int? AssignedTo { get; set; }
+
+        public virtual User AssignedToNavigation { get; set; }
+        public virtual Milestone Milestone { get; set; }
+    }
+}
