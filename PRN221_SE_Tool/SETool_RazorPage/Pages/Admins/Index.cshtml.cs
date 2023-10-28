@@ -7,6 +7,7 @@ namespace SETool_RazorPage.Pages.Admins
     {
         public void OnGet()
         {
+
         }
     }
 }
