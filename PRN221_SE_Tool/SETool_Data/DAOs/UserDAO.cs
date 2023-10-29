@@ -70,7 +70,7 @@ namespace SETool_Data.DAOs
 			{
 				using (var context = new SEToolContext())
 				{
-					return await context.Users.FirstOrDefaultAsync(u => string.Equals(email, u.Email, StringComparison.OrdinalIgnoreCase));
+					return await context.Users.FirstOrDefaultAsync(u => email.Equals(u.Email));
 				}
 			}
 			catch (Exception ex)
@@ -79,14 +79,29 @@ namespace SETool_Data.DAOs
 			}
 		}
 
-		public async Task<int> CreateUser(User userDTO)
+        public async Task<User> GetUserByPhone(string phone)
+        {
+            try
+            {
+                using (var context = new SEToolContext())
+                {
+                    return await context.Users.FirstOrDefaultAsync(u => phone.Equals(u.PhoneNumber));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async System.Threading.Tasks.Task CreateUser(User userDTO)
 		{
 			try
 			{
 				using (var context = new SEToolContext())
 				{
 					context.Set<User>().Add(userDTO);
-					return await context.SaveChangesAsync();
+					await context.SaveChangesAsync();
 				}
 			}
 			catch (Exception ex)

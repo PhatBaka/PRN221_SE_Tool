@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,46 +55,93 @@ namespace SETool_Business.Services.Impls
 				}
 
                 return userDTO;
-                //	if (userDTO != null)
-                //	{
-
-                //		return userDTO;
-
-                //	}
             }
 			catch (Exception ex)
 			{
-				throw new Exception(ex.Message);
+                LoggerService.Logger(ex.ToString());
+                throw new Exception(ex.Message);
 			}
 			
 		}
 
 
-		public async Task<IdDTO> CreateUser(CreateUserDTO userDTO, ThisUserObj currentUser)
-		{
-			IdDTO newId = new IdDTO();
-			try
-			{
-				if (await _userRepository.GetUserByEmail(userDTO.email) != null)
-					throw new InvalidFieldException("This email is existd");
+        public async System.Threading.Tasks.Task CreateUser(CreateUserDTO userDTO)
+        {
+            try
+            {
+                User entity = _mapper.Map<User>(userDTO);
+                entity.Status = Enum.GetNames(typeof(ObjectStatusEnum)).ElementAt(0);
 
-				User entity = _mapper.Map<User>(userDTO);
+                await _userGenericRepository.Insert(entity);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.ToString());
+                throw new Exception(ex.Message);
+            }
+        }
 
-				entity.Status = Enum.GetNames(typeof(ObjectStatusEnum)).ElementAt(0);
+        public async Task<GetUserDTO> GetUserByEmail(string email)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByEmail(email);
+                GetUserDTO userDTO = _mapper.Map<GetUserDTO>(user);
 
-				newId.id = await _userGenericRepository.Insert(entity);
+                if (userDTO == null)
+                {
+                    return null;
+                }
 
-				if (newId.id.Equals(""))
-					throw new CreateObjectException("Can not create user object");
+                return userDTO;
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.ToString());
+                throw new Exception(ex.Message);
+            }
+        }
 
-				return newId;
+        public async Task<GetUserDTO> GetUserByPhone(string phone)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByPhone(phone);
+                GetUserDTO userDTO = _mapper.Map<GetUserDTO>(user);
 
-			}
-			catch (Exception ex)
-			{
-				LoggerService.Logger(ex.ToString());
-				throw new Exception(ex.Message);
-			}
-		}
-	}
+                if (userDTO == null)
+                {
+                    return null;
+                }
+
+                return userDTO;
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.ToString());
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GetUserDTO> GetUserById(int id)
+        {
+            try
+            {
+                User user = await _userGenericRepository.GetById(id);
+                GetUserDTO userDTO = _mapper.Map<GetUserDTO>(user);
+
+                if (userDTO == null)
+                {
+                    return null;
+                }
+
+                return userDTO;
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.ToString());
+                throw new Exception(ex.Message);
+            }
+        }
+    }
 }

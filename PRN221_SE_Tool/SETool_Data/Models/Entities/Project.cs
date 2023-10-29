@@ -11,7 +11,6 @@ namespace SETool_Data.Models.Entities
         {
             GroupProjects = new HashSet<GroupProject>();
             Milestones = new HashSet<Milestone>();
-            ProjectSemesters = new HashSet<ProjectSemester>();
             TeacherProjects = new HashSet<TeacherProject>();
         }
 
@@ -19,10 +18,11 @@ namespace SETool_Data.Models.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public int? SemesterId { get; set; }
 
+        public virtual Semester Semester { get; set; }
         public virtual ICollection<GroupProject> GroupProjects { get; set; }
         public virtual ICollection<Milestone> Milestones { get; set; }
-        public virtual ICollection<ProjectSemester> ProjectSemesters { get; set; }
         public virtual ICollection<TeacherProject> TeacherProjects { get; set; }
     }
 }

@@ -16,15 +16,17 @@ namespace SETool_RazorPage.Extensions
             services.AddScoped<IValidationService, ValidationService>();
 
             //  USER
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
 
             // ROLE
-            services.AddTransient<IRoleRepository, RoleRepository>();
-            services.AddTransient<IRoleService, RoleService>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleService, RoleService>();
 
             // GENERIC
-            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            services.AddSingleton<IUserRepository, UserRepository>();
         }
     }
 }

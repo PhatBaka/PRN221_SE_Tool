@@ -9,6 +9,7 @@ namespace SETool_Data.Models.Entities
     {
         public User()
         {
+            Approvals = new HashSet<Approval>();
             Tasks = new HashSet<Task>();
             TeacherProjects = new HashSet<TeacherProject>();
         }
@@ -30,9 +31,11 @@ namespace SETool_Data.Models.Entities
         public bool? IsLeader { get; set; }
         public int? GroupId { get; set; }
         public int? RoleId { get; set; }
+        public DateTime? AuthoriizedDate { get; set; }
 
         public virtual Group Group { get; set; }
         public virtual Role Role { get; set; }
+        public virtual ICollection<Approval> Approvals { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<TeacherProject> TeacherProjects { get; set; }
     }

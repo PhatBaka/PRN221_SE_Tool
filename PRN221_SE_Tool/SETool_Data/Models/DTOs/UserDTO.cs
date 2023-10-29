@@ -16,7 +16,7 @@ namespace SETool_Data.Models.DTOs
 	}
 	public class CreateUserDTO : UserDTO
 	{
-		public string role { get; set; }
+		public int roleID { get; set; }
 	}
 	public class GetUserDTO : UserDTO
 	{

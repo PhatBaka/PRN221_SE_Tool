@@ -9,7 +9,9 @@ namespace SETool_Data.Models.Entities
     {
         public int GroupId { get; set; }
         public int ProjectId { get; set; }
+        public DateTime? RegisterDate { get; set; }
         public string Status { get; set; }
+        public int? ApprovedBy { get; set; }
 
         public virtual Group Group { get; set; }
         public virtual Project Project { get; set; }

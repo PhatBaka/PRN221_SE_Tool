@@ -10,12 +10,13 @@ namespace SETool_Data.Repositories.IRepos
 	public interface IUserRepository
 	{
 		//CREATE
-		public Task<int> CreateUser(User userDTO);
+		public System.Threading.Tasks.Task CreateUser(User userDTO);
 		//READ
+		public Task<User> GetUserByPhone(string phone);
 		public Task<User> GetUserByEmail(string email);
 		public Task<User> GetUserByEmailAndPassowrd(string email, string password);
-		//UPDATE
-		
-		//DELETE
-	}
+        //UPDATE
+
+        //DELETE
+    }
 }

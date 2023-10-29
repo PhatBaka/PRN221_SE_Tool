@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using SETool_Business.Services;
-using SETool_Data.Models.DTOs;
-using SETool_Data.Models.Entities;
+using SETool_Data.Models.Constants.Enums;
 using SETool_RazorPage.ViewModel;
 
 
@@ -28,7 +24,7 @@ namespace SETool_RazorPage.Pages
         }
 
         [BindProperty]
-        public LoginViewModel loginViewModel{ get; set; }
+        public LoginViewModel LoginViewModel{ get; set; }
 
         //public SelectList Roles { set; get; }
 
@@ -51,25 +47,23 @@ namespace SETool_RazorPage.Pages
             var email = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AdminAccount:Email").Value;
             var password = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AdminAccount:Password").Value;
 
-            if (string.Equals(email, loginViewModel.Email, StringComparison.OrdinalIgnoreCase)
-                && password.Equals(loginViewModel.Password))
+            if (string.Equals(email, LoginViewModel.Email, StringComparison.OrdinalIgnoreCase)
+                && password.Equals(LoginViewModel.Password))
             {
-                HttpContext.Session.SetString("ROLE", "ADMIN");
+                HttpContext.Session.SetInt32("ID", 0);
                 return RedirectToPage("./Admins/Index");
             }
 
-            var userDTO = await _userService.GetUserByEmailAndPassword(loginViewModel.Email, loginViewModel.Password);
+            var userDTO = await _userService.GetUserByEmailAndPassword(LoginViewModel.Email, LoginViewModel.Password);
             if(userDTO != null)
             {
-                if (userDTO.roleId == 2)
+                if (userDTO.roleId == 1)
                 {
-                    HttpContext.Session.SetString("ROLE", "TEACHER");
                     HttpContext.Session.SetInt32("ID", userDTO.id);
                     return RedirectToPage("./Teachers/Index");
                 }
-                else if (userDTO.roleId == 1)
+                else if (userDTO.roleId == 2)
                 {
-                    HttpContext.Session.SetString("ROLE", "STUDENT");
                     HttpContext.Session.SetInt32("ID", userDTO.id);
                     return RedirectToPage("./Students/Index");
                 }

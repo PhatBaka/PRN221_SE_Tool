@@ -19,11 +19,11 @@ namespace SETool_Data.Models.Entities
         {
         }
 
+        public virtual DbSet<Approval> Approvals { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupProject> GroupProjects { get; set; }
         public virtual DbSet<Milestone> Milestones { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
-        public virtual DbSet<ProjectSemester> ProjectSemesters { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Semester> Semesters { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
@@ -35,19 +35,45 @@ namespace SETool_Data.Models.Entities
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-				// optionsBuilder.UseSqlServer("server = (local); database = SETool;uid=sa;pwd=sa;");
-				var builder = new ConfigurationBuilder()
-							.SetBasePath(Directory.GetCurrentDirectory())
-							.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-				IConfigurationRoot configuration = builder.Build();
-				optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDB"));
-
-			}
-		}
+                // optionsBuilder.UseSqlServer("server = (local); database = SETool;uid=sa;pwd=sa;");
+                var builder = new ConfigurationBuilder()
+                            .SetBasePath(Directory.GetCurrentDirectory())
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                IConfigurationRoot configuration = builder.Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDB"));
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Approval>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.TaskId });
+
+                entity.ToTable("Approval");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.TaskId).HasColumnName("TaskID");
+
+                entity.Property(e => e.ApprovalTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.Task)
+                    .WithMany(p => p.Approvals)
+                    .HasForeignKey(d => d.TaskId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Approval_Task");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Approvals)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Approval_User");
+            });
 
             modelBuilder.Entity<Group>(entity =>
             {
@@ -67,6 +93,8 @@ namespace SETool_Data.Models.Entities
                 entity.Property(e => e.GroupId).HasColumnName("GroupID");
 
                 entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
+
+                entity.Property(e => e.RegisterDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.GroupProjects)
@@ -108,29 +136,13 @@ namespace SETool_Data.Models.Entities
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<ProjectSemester>(entity =>
-            {
-                entity.HasKey(e => new { e.ProjectId, e.SemesterId });
-
-                entity.ToTable("ProjectSemester");
-
-                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
 
                 entity.Property(e => e.SemesterId).HasColumnName("SemesterID");
 
-                entity.HasOne(d => d.Project)
-                    .WithMany(p => p.ProjectSemesters)
-                    .HasForeignKey(d => d.ProjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProjectSemester_Project");
-
                 entity.HasOne(d => d.Semester)
-                    .WithMany(p => p.ProjectSemesters)
+                    .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.SemesterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProjectSemester_Semester");
+                    .HasConstraintName("FK_Project_Semester");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -173,6 +185,8 @@ namespace SETool_Data.Models.Entities
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Status).HasMaxLength(50);
+
                 entity.HasOne(d => d.AssignedToNavigation)
                     .WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.AssignedTo)
@@ -186,7 +200,8 @@ namespace SETool_Data.Models.Entities
 
             modelBuilder.Entity<TeacherProject>(entity =>
             {
-                entity.HasKey(e => new { e.TeacherId, e.ProjectId });
+                entity.HasKey(e => new { e.TeacherId, e.ProjectId })
+                    .HasName("PK_TeacherProject_1");
 
                 entity.ToTable("TeacherProject");
 
@@ -198,13 +213,13 @@ namespace SETool_Data.Models.Entities
                     .WithMany(p => p.TeacherProjects)
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TeacherProject_Project");
+                    .HasConstraintName("FK_TeacherProject_Project1");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.TeacherProjects)
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TeacherProject_User");
+                    .HasConstraintName("FK_TeacherProject_User1");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -212,6 +227,8 @@ namespace SETool_Data.Models.Entities
                 entity.ToTable("User");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.AuthoriizedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.City).HasMaxLength(255);
 

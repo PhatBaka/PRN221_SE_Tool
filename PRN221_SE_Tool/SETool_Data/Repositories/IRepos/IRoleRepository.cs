@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SETool_Data.Repositories.IRepos
 {
-	public interface IRoleRepository
-	{
+    public interface IRoleRepository
+    {
         // CREATE
 
         // READ
@@ -16,5 +16,6 @@ namespace SETool_Data.Repositories.IRepos
         // UPDATE
 
         // DELETE
+
     }
 }

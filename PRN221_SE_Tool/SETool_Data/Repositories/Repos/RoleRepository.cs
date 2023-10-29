@@ -10,6 +10,9 @@ namespace SETool_Data.Repositories.Repos
 {
     public class RoleRepository : IRoleRepository
     {
-
+        // CREATE
+        // READ
+        // UPDATE
+        // DELETE
     }
 }

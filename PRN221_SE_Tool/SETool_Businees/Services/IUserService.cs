@@ -12,9 +12,12 @@ namespace SETool_Business.Services
     public interface IUserService
 	{
 		// CREATE
-		public Task<IdDTO> CreateUser(CreateUserDTO userDTO, ThisUserObj currentUser);
+		public Task CreateUser(CreateUserDTO userDTO);
 
 		// READ
+		public Task<GetUserDTO> GetUserById(int id);
+		public Task<GetUserDTO> GetUserByEmail(string email);
+		public Task<GetUserDTO> GetUserByPhone(string phone); 
 		public Task<GetUserDTO> GetUserByEmailAndPassword(string email, string password);
 
 		// UPDATE

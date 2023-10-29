@@ -9,7 +9,7 @@ namespace SETool_Data.Models.Entities
     {
         public Semester()
         {
-            ProjectSemesters = new HashSet<ProjectSemester>();
+            Projects = new HashSet<Project>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace SETool_Data.Models.Entities
         public DateTime? EndDate { get; set; }
         public string Status { get; set; }
 
-        public virtual ICollection<ProjectSemester> ProjectSemesters { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }
