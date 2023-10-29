@@ -18,6 +18,5 @@ namespace SETool_RazorPage.ViewModel
 		[Required(ErrorMessage = "Password is required")]
 		[MaxLength(50)]
 		public string Password { get; set; }
-		// public RoleDTO Role { get; set; }
     }
 }
