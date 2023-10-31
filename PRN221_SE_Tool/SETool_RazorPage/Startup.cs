@@ -33,7 +33,7 @@ namespace SETool_RazorPage
             services.AddConfigureAppServices(Configuration);
 
             services.AddMvc().AddRazorPagesOptions(options =>
-                                        options.Conventions.AddPageRoute("/LoginPage", ""));
+                                        options.Conventions.AddPageRoute("/Login", ""));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

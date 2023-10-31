@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SETool_Data.Models.Constants.Enums;
 using SETool_Data.Models.DTOs;
-using SETool_Data.Models.DTOs.CommonDTOs;
 using SETool_Data.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -109,5 +109,35 @@ namespace SETool_Data.DAOs
 				throw new Exception(ex.Message);
 			}
 		}
-	}
+
+		public async Task<IEnumerable<User>> GetUsersByGroupId(int groupId)
+		{
+			try
+			{
+                using (var context = new SEToolContext())
+                {
+                    return await context.Users.Where(u => groupId == u.GroupId).ToListAsync();
+                }
+            }
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        public async Task<IEnumerable<User>> GetUsersNotHaveGroup()
+        {
+            try
+            {
+                using (var context = new SEToolContext())
+                {
+                    return await context.Users.Where(u => u.GroupId == null).ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+    }
 }

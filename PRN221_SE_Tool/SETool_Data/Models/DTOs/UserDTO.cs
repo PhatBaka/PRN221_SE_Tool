@@ -31,7 +31,7 @@ namespace SETool_Data.Models.DTOs
 		public string district { get; set; }
 		public string address { get; set; }
 		public string status { get; set; }
-		public GetGroupDTO? group { get; set; }
+		public int groupId { get; set; }
 		public string? isLeader { get; set; }
 	}
 	public class UpdateUserDTO : UserDTO

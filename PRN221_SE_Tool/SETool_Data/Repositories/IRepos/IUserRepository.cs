@@ -12,6 +12,8 @@ namespace SETool_Data.Repositories.IRepos
 		//CREATE
 		public System.Threading.Tasks.Task CreateUser(User userDTO);
 		//READ
+		public Task<IEnumerable<User>> GetUserNotHaveGroup();
+		public Task<IEnumerable<User>> GetUsersByGroupId(int groupId);
 		public Task<User> GetUserByPhone(string phone);
 		public Task<User> GetUserByEmail(string email);
 		public Task<User> GetUserByEmailAndPassowrd(string email, string password);

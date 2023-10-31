@@ -81,6 +81,8 @@ namespace SETool_Data.Models.Entities
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.LeaderId).HasColumnName("LeaderID");
+
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
@@ -93,6 +95,8 @@ namespace SETool_Data.Models.Entities
                 entity.Property(e => e.GroupId).HasColumnName("GroupID");
 
                 entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
+
+                entity.Property(e => e.ApprovedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.RegisterDate).HasColumnType("datetime");
 
@@ -175,7 +179,11 @@ namespace SETool_Data.Models.Entities
                     .ValueGeneratedNever()
                     .HasColumnName("ID");
 
+                entity.Property(e => e.AssignedById).HasColumnName("AssignedByID");
+
                 entity.Property(e => e.AssignedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.AssignedToId).HasColumnName("AssignedToID");
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
@@ -187,9 +195,9 @@ namespace SETool_Data.Models.Entities
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
-                entity.HasOne(d => d.AssignedToNavigation)
+                entity.HasOne(d => d.AssignedTo)
                     .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.AssignedTo)
+                    .HasForeignKey(d => d.AssignedToId)
                     .HasConstraintName("FK_Task_User");
 
                 entity.HasOne(d => d.Milestone)

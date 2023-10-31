@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Models\DTOs\CommonDTOs\" />
     <Folder Include="Models\Entities\" />
   </ItemGroup>
 

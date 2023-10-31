@@ -1,6 +1,4 @@
-﻿using SETool_Business.Models;
-using SETool_Data.Models.DTOs;
-using SETool_Data.Models.DTOs.CommonDTOs;
+﻿using SETool_Data.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +13,11 @@ namespace SETool_Business.Services
 		public Task CreateUser(CreateUserDTO userDTO);
 
 		// READ
+		public Task<IEnumerable<GetUserDTO>> GetUsersByGroupId(int groupId);
 		public Task<GetUserDTO> GetUserById(int id);
 		public Task<GetUserDTO> GetUserByEmail(string email);
 		public Task<GetUserDTO> GetUserByPhone(string phone); 
 		public Task<GetUserDTO> GetUserByEmailAndPassword(string email, string password);
-
 		// UPDATE
 
 		// DELETE

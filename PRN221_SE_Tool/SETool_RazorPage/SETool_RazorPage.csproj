@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\vendor\tui-calendar\tui-time-picker\node_modules\tui-code-snippet\ajax\index.js" />
     <None Include="wwwroot\vendor\tui-calendar\tui-time-picker\node_modules\tui-code-snippet\ajax\index.mjs" />
     <None Include="wwwroot\vendor\tui-calendar\tui-time-picker\node_modules\tui-code-snippet\array\inArray.js" />
@@ -106,6 +102,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Admins\" />
+    <Folder Include="Pages\Teachers\" />
   </ItemGroup>
 
 </Project>

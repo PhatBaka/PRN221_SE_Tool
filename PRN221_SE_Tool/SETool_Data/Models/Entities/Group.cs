@@ -17,6 +17,7 @@ namespace SETool_Data.Models.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public int? LeaderId { get; set; }
 
         public virtual ICollection<GroupProject> GroupProjects { get; set; }
         public virtual ICollection<User> Users { get; set; }

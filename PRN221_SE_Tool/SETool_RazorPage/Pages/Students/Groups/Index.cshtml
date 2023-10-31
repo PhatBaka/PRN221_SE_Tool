@@ -1,0 +1,87 @@
+﻿@page
+@model SETool_RazorPage.Pages.Students.Groups.IndexModel
+
+@{
+    ViewData["Title"] = "GroupPage";
+}
+
+<div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Group</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Group == null)
+                        {
+                            <p>
+                                You don't belong to any group right now.
+                            </p>
+                            <a class="btn btn-primary" asp-page="./Create">Create new group</a>
+                            <a class="btn btn-primary" asp-page="./Create">Request to a group</a>
+                        }
+                        else 
+                        {
+                            <table class="table table-striped dataTable mt-4" role="grid"
+                                   aria-describedby="user-list-page-info">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Members[0].id)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Members[0].firstName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Members[0].lastName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Members[0].email)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in @Model.Members)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.firstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.lastName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.email)
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center list-user-action">
+                                                    <a class="btn btn-sm bg-primary" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Remove" asp-page="./Create" asp-route-id="@item.id"><i class="ri-delete-bin-line mr-0"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
