@@ -30,6 +30,16 @@ namespace SETool_RazorPage.Extensions
             services.AddScoped<IGroupService, GroupService>();
             services.AddSingleton<IGroupRepository, GroupRepository>();
 
+            // PROJECT
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddSingleton<IProjectRepository, ProjectRepository>();
+
+            // SEMESTER
+            services.AddScoped<ISemesterRepository, SemesterRepository>();
+            services.AddScoped<ISemesterService, SemesterService>();
+            services.AddSingleton<ISemesterRepository, SemesterRepository>();
+
             // GENERIC
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddSingleton(typeof(IGenericRepository<>), typeof(GenericRepository<>));

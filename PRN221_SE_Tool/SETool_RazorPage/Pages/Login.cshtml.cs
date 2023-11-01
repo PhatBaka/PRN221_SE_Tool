@@ -39,7 +39,7 @@ namespace SETool_RazorPage.Pages
                 && password.Equals(LoginViewModel.Password))
             {
                 HttpContext.Session.SetString("ROLE", "ADMIN");
-                return RedirectToPage("./Admins/Index");
+                return RedirectToPage("./Admins/Semesters/Index");
             }
 
             var userDTO = await _userService.GetUserByEmailAndPassword(LoginViewModel.Email, LoginViewModel.Password);

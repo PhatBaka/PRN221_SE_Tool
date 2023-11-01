@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace SETool_Business.Services
 {
-    public interface IRoleService
+    public interface ISemesterService
     {
         // CREATE
-       
+        public Task<GetSemesterDTO> CreateSemester();
         // READ
-        public Task<List<GetRoleDTO>> GetAllRoles();
-
+        public Task<IEnumerable<GetSemesterDTO>> GetAll();
+        public Task<GetSemesterDTO> GetCurrentSemester();
         // UPDATE
-
         // DELETE
     }
 }

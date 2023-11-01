@@ -1,21 +1,16 @@
-﻿using SETool_Data.Models.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SETool_Business.Services
+namespace SETool_Data.Repositories.IRepos
 {
-    public interface IRoleService
+    public interface IProjectRepository
     {
         // CREATE
-       
         // READ
-        public Task<List<GetRoleDTO>> GetAllRoles();
-
         // UPDATE
-
         // DELETE
     }
 }

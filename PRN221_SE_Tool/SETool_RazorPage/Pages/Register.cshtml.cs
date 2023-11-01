@@ -81,7 +81,7 @@ namespace SETool_RazorPage.Pages
             if (userDTO.roleId == 1)
                 return RedirectToPage("/Students/Groups/Index");
             else if (userDTO.roleId == 2)
-                return RedirectToPage("/Teachers/Index");
+                return RedirectToPage("/Teachers/Projects/Create");
             return Page();
         }
 
