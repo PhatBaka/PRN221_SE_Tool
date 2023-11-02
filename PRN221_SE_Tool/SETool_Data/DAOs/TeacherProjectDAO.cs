@@ -36,7 +36,8 @@ namespace SETool_Data.DAOs
             {
                 using (var context = new SEToolContext())
                 {
-                    return await context.TeacherProjects.Where(tp => tp.TeacherId == id).ToListAsync();
+                    return await context.TeacherProjects.Where(tp => tp.TeacherId == id
+                                                                    && tp.IsCoreTeacher == true).ToListAsync();
                 }
             }
             catch (Exception ex)

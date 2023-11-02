@@ -39,6 +39,12 @@ namespace SETool_Business.Helpers
             CreateMap<Project, ProjectDTO>().ReverseMap();
             CreateMap<Project, GetProjectDTO>().ReverseMap();
             CreateMap<Project, CreateProjectDTO>().ReverseMap();
+
+            // TEACHER PROJECT
+            CreateMap<TeacherProject, TeacherProjectDTO>().ReverseMap();
+            CreateMap<TeacherProject, GetTeacherProjectDTO>().ReverseMap();
+            CreateMap<TeacherProject, CreateTeacherProjectDTO>().ReverseMap();
+            CreateMap<TeacherProject, UpdateTeacherProjectDTO>().ReverseMap();
         }
     }
 }

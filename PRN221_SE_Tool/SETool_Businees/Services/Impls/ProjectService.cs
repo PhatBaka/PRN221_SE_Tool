@@ -74,7 +74,6 @@ namespace SETool_Business.Services.Impls
                 }
                 TeacherProject coreTeacherProject = _mapper.Map<TeacherProject>(coreTeacherProjectDTO);
                 await _genericTeacherProjectRepository.Insert(coreTeacherProject);
-                
             }
             catch (Exception ex)
             {
@@ -122,7 +121,7 @@ namespace SETool_Business.Services.Impls
                 IEnumerable<GetTeacherProjectDTO> teacherProjectDTO = _mapper.Map<IEnumerable<GetTeacherProjectDTO>>(teacherProjects);
                 foreach (var teacherProject in teacherProjectDTO)
                 {
-                    projects.Add(await _genericProjectRepository.GetById(teacherProject.ProjectId));
+                    projects.Add(await _projectRepository.GetProjectById(teacherProject.ProjectId));
                 }
                 return _mapper.Map<IEnumerable<GetProjectDTO>>(projects);
             }

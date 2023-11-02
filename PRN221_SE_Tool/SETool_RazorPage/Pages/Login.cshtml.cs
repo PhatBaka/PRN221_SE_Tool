@@ -49,13 +49,13 @@ namespace SETool_RazorPage.Pages
                 {
                     HttpContext.Session.SetInt32("ID", userDTO.id);
                     HttpContext.Session.SetString("ROLE", "TEACHER");
-                    return RedirectToPage("./Teachers/Index");
+                    return RedirectToPage("./Students/Groups/Index");
                 }
                 else if (userDTO.roleId == 2)
                 {
                     HttpContext.Session.SetInt32("ID", userDTO.id);
                     HttpContext.Session.SetString("ROLE", "STUDENT");
-                    return RedirectToPage("./Students/Groups/Index");
+                    return RedirectToPage("./Teachers/Projects/Index");
                 }
             }
 
