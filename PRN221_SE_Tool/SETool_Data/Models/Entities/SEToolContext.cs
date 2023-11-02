@@ -19,7 +19,6 @@ namespace SETool_Data.Models.Entities
         {
         }
 
-        public virtual DbSet<Approval> Approvals { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupProject> GroupProjects { get; set; }
         public virtual DbSet<Milestone> Milestones { get; set; }
@@ -41,39 +40,13 @@ namespace SETool_Data.Models.Entities
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 IConfigurationRoot configuration = builder.Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDB"));
+
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
-            modelBuilder.Entity<Approval>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.TaskId });
-
-                entity.ToTable("Approval");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.TaskId).HasColumnName("TaskID");
-
-                entity.Property(e => e.ApprovalTime).HasColumnType("datetime");
-
-                entity.Property(e => e.Status).HasMaxLength(50);
-
-                entity.HasOne(d => d.Task)
-                    .WithMany(p => p.Approvals)
-                    .HasForeignKey(d => d.TaskId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Approval_Task");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Approvals)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Approval_User");
-            });
 
             modelBuilder.Entity<Group>(entity =>
             {
@@ -146,7 +119,7 @@ namespace SETool_Data.Models.Entities
                 entity.HasOne(d => d.Semester)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.SemesterId)
-                    .HasConstraintName("FK_Project_Semester");
+                    .HasConstraintName("FK_Project_Semester1");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -235,8 +208,6 @@ namespace SETool_Data.Models.Entities
                 entity.ToTable("User");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.AuthoriizedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.City).HasMaxLength(255);
 

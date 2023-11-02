@@ -51,7 +51,7 @@ namespace SETool_RazorPage.Pages.Students.Groups
                 GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
                 UsersInPending ??= new List<GetUserDTO>();
                 //  Check if user in pending already edded
-                if (UsersInPending.FirstOrDefault(u => u.id == user.id) != null)
+                if (UsersInPending.FirstOrDefault(u => u.Id == user.Id) != null)
                     return Page();
                 UsersInPending.Add(user);
                 SessionExtension.SetObjectAsJson(HttpContext.Session, "PENDINUUSER", UsersInPending);
@@ -72,9 +72,9 @@ namespace SETool_RazorPage.Pages.Students.Groups
             // create group
             CreateGroupDTO groupDTO = new CreateGroupDTO()
             {
-                name = GroupViewModel.Name,
-                description = GroupViewModel.Description,
-                leaderId = UserId
+                Name = GroupViewModel.Name,
+                Description = GroupViewModel.Description,
+                LeaderId = UserId
             };
 
             UsersInPending ??= new List<GetUserDTO>();

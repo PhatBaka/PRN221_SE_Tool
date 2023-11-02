@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using SETool_Data.DAOs;
 using SETool_Data.Helpers.Logger;
-using SETool_Data.Models.Constants.Enums;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
@@ -40,7 +39,7 @@ namespace SETool_Business.Services.Impls
             _mapper = mapper;
         }
 
-        public async System.Threading.Tasks.Task CreateGroupProject(CreateGroupProjectDTO groupProjectDTO, GetUserDTO leader)
+        public async System.Threading.Tasks.Task CreateGroupProject(CreateGroupProjectDTO groupProjectDTO, int leaderId)
         {
             try
             {
@@ -68,7 +67,7 @@ namespace SETool_Business.Services.Impls
                 CreateTeacherProjectDTO coreTeacherProjectDTO = new()
                 {
                     ProjectId = getProjectDTO.Id,
-                    TeacherId = coreTeacher.id,
+                    TeacherId = coreTeacher.Id,
                     IsCoreTeacher = true,
                     Status = "ACTIVE"
                 };
@@ -81,7 +80,7 @@ namespace SETool_Business.Services.Impls
                         CreateTeacherProjectDTO sideTeacherProjectDTO = new()
                         {
                             ProjectId = getProjectDTO.Id,
-                            TeacherId = sideTeacher.id,
+                            TeacherId = sideTeacher.Id,
                             IsCoreTeacher = false,
                             Status = "PENDING"
                         };

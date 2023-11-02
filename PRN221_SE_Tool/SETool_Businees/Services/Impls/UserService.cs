@@ -5,7 +5,7 @@ using SETool_Business.Exceptions;
 using SETool_Business.Services.Extensions;
 using SETool_Data.DAOs;
 using SETool_Data.Helpers.Logger;
-using SETool_Data.Models.Constants.Enums;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
@@ -68,7 +68,7 @@ namespace SETool_Business.Services.Impls
             try
             {
                 User entity = _mapper.Map<User>(userDTO);
-                entity.Status = Enum.GetNames(typeof(ObjectStatusEnum)).ElementAt(0);
+                entity.Status = ObjectStatusConstant.ACTIVE;
 
                 await _userGenericRepository.Insert(entity);
             }
@@ -125,7 +125,7 @@ namespace SETool_Business.Services.Impls
         {
             try
             {
-                User user = await _userGenericRepository.GetById(id);
+                User user = await _userRepository.GetUserById(id);
                 GetUserDTO userDTO = _mapper.Map<GetUserDTO>(user);
 
                 if (userDTO == null)

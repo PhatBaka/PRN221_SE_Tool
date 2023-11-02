@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SETool_Business.Services;
 using SETool_Business.Services.Impls;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_RazorPage.Extensions;
@@ -32,6 +33,7 @@ namespace SETool_RazorPage.Pages.Teachers.Projects
 
         [BindProperty]
         public ProjectViewModel ProjectViewModel { get; set; }
+        [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
         public IList<GetProjectDTO> Projects { get; set; }
         public int UserId { get; private set; }
@@ -48,11 +50,11 @@ namespace SETool_RazorPage.Pages.Teachers.Projects
             {
                 GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
                 // Check user is teacher
-                if (user.roleId == 2)
+                if (user.Role.Name == RoleConstant.TEACHER)
                 {
                     UsersInPending ??= new List<GetUserDTO>();
                     //  Check if user in pending already edded
-                    if (UsersInPending.FirstOrDefault(u => u.id == user.id) != null)
+                    if (UsersInPending.FirstOrDefault(u => u.Id == user.Id) != null)
                         return Page();
                     UsersInPending.Add(user);
                     SessionExtension.SetObjectAsJson(HttpContext.Session, "PENDINUUSER", UsersInPending);

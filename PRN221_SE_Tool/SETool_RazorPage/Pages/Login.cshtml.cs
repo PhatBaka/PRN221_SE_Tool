@@ -6,6 +6,8 @@ using SETool_Business.Services;
 using SETool_RazorPage.ViewModel;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
+using SETool_Data.Models.Constants;
 
 namespace SETool_RazorPage.Pages
 {
@@ -45,15 +47,15 @@ namespace SETool_RazorPage.Pages
             var userDTO = await _userService.GetUserByEmailAndPassword(LoginViewModel.Email, LoginViewModel.Password);
             if (userDTO != null)
             {
-                if (userDTO.roleId == 1)
+                if (userDTO.Role.Name == RoleConstant.STUDENT)
                 {
-                    HttpContext.Session.SetInt32("ID", userDTO.id);
+                    HttpContext.Session.SetInt32("ID", userDTO.Id);
                     HttpContext.Session.SetString("ROLE", "STUDENT");
                     return RedirectToPage("./Students/Groups/Index");
                 }
-                else if (userDTO.roleId == 2)
+                else if (userDTO.Role.Name == RoleConstant.TEACHER)
                 {
-                    HttpContext.Session.SetInt32("ID", userDTO.id);
+                    HttpContext.Session.SetInt32("ID", userDTO.Id);
                     HttpContext.Session.SetString("ROLE", "TEACHER");
                     return RedirectToPage("./Teachers/Projects/Index");
                 }

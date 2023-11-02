@@ -7,11 +7,6 @@ namespace SETool_Data.Models.Entities
 {
     public partial class Task
     {
-        public Task()
-        {
-            Approvals = new HashSet<Approval>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime? StartDate { get; set; }
@@ -26,6 +21,5 @@ namespace SETool_Data.Models.Entities
 
         public virtual User AssignedTo { get; set; }
         public virtual Milestone Milestone { get; set; }
-        public virtual ICollection<Approval> Approvals { get; set; }
     }
 }

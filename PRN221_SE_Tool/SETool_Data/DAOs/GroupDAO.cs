@@ -36,7 +36,9 @@ namespace SETool_Data.DAOs
             {
                 using (var context = new SEToolContext())
                 {
-                    return await context.Groups.FirstOrDefaultAsync(g => g.LeaderId == leaderId);
+                    return await context.Groups
+                                        .Include(g => g.Users)
+                                        .FirstOrDefaultAsync(g => g.LeaderId == leaderId);
                 }
             }
             catch (Exception ex)
