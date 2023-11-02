@@ -9,42 +9,42 @@ namespace SETool_Data.Models.DTOs
 {
 	public class UserDTO
 	{
-		public string lastName { get; set; }
-		public string firstName { get; set; }
-		public string email { get; set; }
-		public string password { get; set; }
-	}
+		public string LastName { get; set; }
+		public string FirstName { get; set; }
+		public string Email { get; set; }
+		public string Password { get; set; }
+        public string Status { get; set; }
+    }
 	public class CreateUserDTO : UserDTO
 	{
-		public int roleID { get; set; }
+		public int RoleId { get; set; }
 	}
-	public class GetUserDTO : UserDTO
-	{
-		public int id { get; set; }
-		public int roleId { get; set; }
-		public string description { get; set; }
-		public string phoneNumber { get; set; }
-		public string image { get; set; }
-		public string gender { get; set; }
-		public string dateOfBirth { get; set; }
-		public string city { get; set; }
-		public string district { get; set; }
-		public string address { get; set; }
-		public string status { get; set; }
-		public int groupId { get; set; }
-		public string? isLeader { get; set; }
-	}
-	public class UpdateUserDTO : UserDTO
-	{
-		public string description { get; set; }
-		public string phoneNumber { get; set; }
-		public IFormFile image { get; set; }
-		public string gender { get; set; }
-		public string dateOfBirth { get; set; }
-		public string city { get; set; }
-		public string district { get; set; }
-		public string address { get; set; }
-		public string status { get; set; }
-		public RoleDTO role { get; set; }
-	}
+    public class UpdateUserDTO : UserDTO
+    {
+        public string? Description { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Gender { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? City { get; set; }
+        public string? District { get; set; }
+        public string? Address { get; set; }
+        public string? Status { get; set; }
+        public int RoleId { get; set; }
+    }
+
+    public class GetUserDTO : UserDTO
+    {
+        public int Id { get; set; }
+        public GetRoleDTO Role { get; set; }
+        public List<GetTeacherProjectDTO> TeacherProjects { get; set; }
+        public GetGroupDTO Group { get; set; }
+        public List<GetTaskDTO> Tasks { get; set; }
+        public string? Description { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Gender { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? City { get; set; }
+        public string? District { get; set; }
+        public string? Address { get; set; }
+    }
 }

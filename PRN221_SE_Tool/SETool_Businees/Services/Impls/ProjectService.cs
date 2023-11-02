@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using SETool_Data.DAOs;
 using SETool_Data.Helpers.Logger;
-using SETool_Data.Models.Constants.Enums;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
@@ -22,19 +21,36 @@ namespace SETool_Business.Services.Impls
         private readonly IProjectRepository _projectRepository;
         private readonly IGenericRepository<Project> _genericProjectRepository;
         private readonly IGenericRepository<TeacherProject> _genericTeacherProjectRepository;
+        private readonly IGenericRepository<GroupProject> _genericGroupProjectRepository;
         private readonly IMapper _mapper;
 
         public ProjectService(ITeacherProjectRepository teacherProjectRepository
                                 , IProjectRepository projectRepository
                                 , IGenericRepository<Project> genericProjectRepository
                                 , IGenericRepository<TeacherProject> genericTeacherProjectRepository
+                                , IGenericRepository<GroupProject> genericGroupProjectRepository
                                 , IMapper mapper)
         {
             _teacherProjectrepository = teacherProjectRepository;
             _projectRepository = projectRepository;
+            _genericGroupProjectRepository = genericGroupProjectRepository;
             _genericProjectRepository = genericProjectRepository;
             _genericTeacherProjectRepository = genericTeacherProjectRepository;
             _mapper = mapper;
+        }
+
+        public async System.Threading.Tasks.Task CreateGroupProject(CreateGroupProjectDTO groupProjectDTO, int leaderId)
+        {
+            try
+            {
+                GroupProject entity = _mapper.Map<GroupProject>(groupProjectDTO);
+                await _genericGroupProjectRepository.Insert(entity);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.Message);
+                throw new Exception(ex.Message);
+            }
         }
 
         public async System.Threading.Tasks.Task CreateProject(CreateProjectDTO projectDTO, GetUserDTO coreTeacher, List<GetUserDTO> sideTeachers)
@@ -51,7 +67,7 @@ namespace SETool_Business.Services.Impls
                 CreateTeacherProjectDTO coreTeacherProjectDTO = new()
                 {
                     ProjectId = getProjectDTO.Id,
-                    TeacherId = coreTeacher.id,
+                    TeacherId = coreTeacher.Id,
                     IsCoreTeacher = true,
                     Status = "ACTIVE"
                 };
@@ -64,7 +80,7 @@ namespace SETool_Business.Services.Impls
                         CreateTeacherProjectDTO sideTeacherProjectDTO = new()
                         {
                             ProjectId = getProjectDTO.Id,
-                            TeacherId = sideTeacher.id,
+                            TeacherId = sideTeacher.Id,
                             IsCoreTeacher = false,
                             Status = "PENDING"
                         };
@@ -74,7 +90,6 @@ namespace SETool_Business.Services.Impls
                 }
                 TeacherProject coreTeacherProject = _mapper.Map<TeacherProject>(coreTeacherProjectDTO);
                 await _genericTeacherProjectRepository.Insert(coreTeacherProject);
-                
             }
             catch (Exception ex)
             {
@@ -83,11 +98,11 @@ namespace SETool_Business.Services.Impls
             }
         }
 
-        public async Task<IEnumerable<GetProjectDTO>> GetAll()
+        public async Task<IEnumerable<GetProjectDTO>> GetAll(string status)
         {
             try
             {
-                IEnumerable<Project> projects = await _projectRepository.GetAll();
+                IEnumerable<Project> projects = await _projectRepository.GetAll(status);
                 IEnumerable<GetProjectDTO> projectDTOs = _mapper.Map<IEnumerable<GetProjectDTO>>(projects);
                 return projectDTOs;
             }   
@@ -122,7 +137,7 @@ namespace SETool_Business.Services.Impls
                 IEnumerable<GetTeacherProjectDTO> teacherProjectDTO = _mapper.Map<IEnumerable<GetTeacherProjectDTO>>(teacherProjects);
                 foreach (var teacherProject in teacherProjectDTO)
                 {
-                    projects.Add(await _genericProjectRepository.GetById(teacherProject.ProjectId));
+                    projects.Add(await _projectRepository.GetProjectById(teacherProject.ProjectId));
                 }
                 return _mapper.Map<IEnumerable<GetProjectDTO>>(projects);
             }

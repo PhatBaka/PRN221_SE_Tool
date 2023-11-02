@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SETool_Data.Models.Constants.Enums;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using System;
@@ -38,9 +38,11 @@ namespace SETool_Data.DAOs
 			{
 				using (var context = new SEToolContext())
 				{
-					return await context.Users.FirstOrDefaultAsync(u => email.Equals(u.Email)
+					return await context.Users.Include(u => u.Role)
+												.Include(u => u.Group)
+												.FirstOrDefaultAsync(u => email.Equals(u.Email)
 															&& password.Equals(u.Password)
-															&& u.Status.Equals(Enum.GetNames(typeof(ObjectStatusEnum)).ElementAt(0)));
+															&& u.Status.Equals(ObjectStatusConstant.ACTIVE));
 				}
 			}
 			catch (Exception ex)
@@ -49,7 +51,25 @@ namespace SETool_Data.DAOs
 			}
 		}
 
-		public async Task<List<User>> GetStudentsByGroupID(Guid groupID)
+        public async Task<User> GetUserById(int id)
+        {
+            try
+            {
+                using (var context = new SEToolContext())
+                {
+                    return await context.Users.Include(u => u.Role)
+                                                .Include(u => u.Group)
+                                                .FirstOrDefaultAsync(u => u.Id == id
+                                                            && u.Status.Equals(ObjectStatusConstant.ACTIVE));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<User>> GetStudentsByGroupID(Guid groupID)
 		{
 			try
 			{
@@ -70,7 +90,10 @@ namespace SETool_Data.DAOs
 			{
 				using (var context = new SEToolContext())
 				{
-					return await context.Users.FirstOrDefaultAsync(u => email.Equals(u.Email));
+					return await context.Users.Include(u => u.Role)
+												.Include(u => u.Group)
+												.FirstOrDefaultAsync(u => email.Equals(u.Email)
+															&& u.Status.Equals(ObjectStatusConstant.ACTIVE));
 				}
 			}
 			catch (Exception ex)
@@ -79,22 +102,22 @@ namespace SETool_Data.DAOs
 			}
 		}
 
-        public async Task<User> GetUserByPhone(string phone)
-        {
-            try
-            {
-                using (var context = new SEToolContext())
-                {
-                    return await context.Users.FirstOrDefaultAsync(u => phone.Equals(u.PhoneNumber));
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+		public async Task<User> GetUserByPhone(string phone)
+		{
+			try
+			{
+				using (var context = new SEToolContext())
+				{
+					return await context.Users.FirstOrDefaultAsync(u => phone.Equals(u.PhoneNumber));
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
 
-        public async System.Threading.Tasks.Task CreateUser(User userDTO)
+		public async System.Threading.Tasks.Task CreateUser(User userDTO)
 		{
 			try
 			{
@@ -114,30 +137,30 @@ namespace SETool_Data.DAOs
 		{
 			try
 			{
-                using (var context = new SEToolContext())
-                {
-                    return await context.Users.Where(u => groupId == u.GroupId).ToListAsync();
-                }
-            }
+				using (var context = new SEToolContext())
+				{
+					return await context.Users.Where(u => groupId == u.GroupId).ToListAsync();
+				}
+			}
 			catch (Exception ex)
 			{
 				throw new Exception(ex.Message);
 			}
 		}
 
-        public async Task<IEnumerable<User>> GetUsersNotHaveGroup()
-        {
-            try
-            {
-                using (var context = new SEToolContext())
-                {
-                    return await context.Users.Where(u => u.GroupId == null).ToListAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-    }
+		public async Task<IEnumerable<User>> GetUsersNotHaveGroup()
+		{
+			try
+			{
+				using (var context = new SEToolContext())
+				{
+					return await context.Users.Where(u => u.GroupId == null).ToListAsync();
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+	}
 }

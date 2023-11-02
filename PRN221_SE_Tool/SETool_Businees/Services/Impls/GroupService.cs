@@ -3,7 +3,7 @@ using Microsoft.VisualBasic;
 using SETool_Business.Services.Extensions;
 using SETool_Data.DAOs;
 using SETool_Data.Helpers.Logger;
-using SETool_Data.Models.Constants.Enums;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
@@ -47,14 +47,14 @@ namespace SETool_Business.Services.Impls
             {
                 // create new group
                 Group group = _mapper.Map<Group>(createGroupDTO);
-                group.Status = Enum.GetNames(typeof(ObjectStatusEnum)).ElementAt(0);
+                group.Status = ObjectStatusConstant.ACTIVE;
                 await _groupGenericRepository.Insert(group);
                 group = await _groupRepository.GetGroupByLeaderId((int)group.LeaderId);
                 User user;
                 // update leaderId to user
                 foreach(var item in studentDTOs)
                 {
-                    user = await _userGenericRepository.GetById(item.id);
+                    user = await _userGenericRepository.GetById(item.Id);
                     user.GroupId = group.Id;
                     await _userGenericRepository.Update(user);
                 }

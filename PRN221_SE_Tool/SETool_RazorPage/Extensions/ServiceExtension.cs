@@ -35,6 +35,10 @@ namespace SETool_RazorPage.Extensions
             services.AddScoped<IProjectService, ProjectService>();
             services.AddSingleton<IProjectRepository, ProjectRepository>();
 
+            // TEACHER PROJECT
+            services.AddScoped<ITeacherProjectRepository, TeacherProjectRepository>();
+            services.AddSingleton<ITeacherProjectRepository, TeacherProjectRepository>();
+
             // SEMESTER
             services.AddScoped<ISemesterRepository, SemesterRepository>();
             services.AddScoped<ISemesterService, SemesterService>();

@@ -1,10 +1,7 @@
 ﻿@page
-@model SETool_RazorPage.Pages.Students.Groups.IndexModel
-
+@model SETool_RazorPage.Pages.Teachers.Projects.IndexModel
 @{
-    ViewData["Title"] = "GroupPage";
 }
-
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
@@ -12,54 +9,59 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Group</h4>
+                            <h4 class="card-title">Project</h4>
                         </div>
                     </div>
                     <div class="card-body">
-                        @if (Model.Group == null)
+                        @if (Model.Projects.Count == 0)
                         {
                             <p>
-                                You don't belong to any group right now.
+                                Teacher don't have any project right now.
                             </p>
-                            <a class="btn btn-primary" asp-page="./Create">Create new group</a>
-                            <a class="btn btn-primary" asp-page="./Create">Request to a group</a>
+                            <a class="btn btn-primary" asp-page="./Create">Create new project</a>
                         }
-                        else 
+                        else
                         {
+                            <a class="btn btn-primary" asp-page="./Create">Create new project</a>
                             <table class="table table-striped dataTable mt-4" role="grid"
                                    aria-describedby="user-list-page-info">
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].Id)
+                                            @Html.DisplayNameFor(model => model.Projects[0].Id)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].FirstName)
+                                            @Html.DisplayNameFor(model => model.Projects[0].Name)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].LastName)
+                                            @Html.DisplayNameFor(model => model.Projects[0].Description)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].Email)
+                                            @Html.DisplayNameFor(model => model.Projects[0].Status)
                                         </th>
-                                        <th></th>
+                                        <th>
+                                            Semester
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in @Model.Members)
+                                    @foreach (var item in @Model.Projects)
                                     {
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Id)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                                @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.LastName)
+                                                @Html.DisplayFor(modelItem => item.Description)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Email)
+                                                @Html.DisplayFor(modelItem => item.Status)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Semester.Name)
                                             </td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">

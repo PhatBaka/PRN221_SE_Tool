@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using SETool_Data.Models.Constants;
 
 namespace SETool_RazorPage.Pages
 {
@@ -63,11 +64,12 @@ namespace SETool_RazorPage.Pages
             // Create user object
             var entity = new CreateUserDTO
             {
-                email = RegisterViewModel.Email,
-                password = RegisterViewModel.Password,
-                firstName = RegisterViewModel.FirstName,
-                lastName = RegisterViewModel.LastName,
-                roleID = Int32.Parse(SelectedRole)
+                Email = RegisterViewModel.Email,
+                Password = RegisterViewModel.Password,
+                FirstName = RegisterViewModel.FirstName,
+                LastName = RegisterViewModel.LastName,
+                RoleId = Int32.Parse(SelectedRole),
+                Status = ObjectStatusConstant.ACTIVE
             };
 
             // Create new user and return id
@@ -75,13 +77,19 @@ namespace SETool_RazorPage.Pages
 
             // Store in session
             userDTO = await _userService.GetUserByEmail(RegisterViewModel.Email);
-            HttpContext.Session.SetInt32("ID", userDTO.id);
+            HttpContext.Session.SetInt32("ID", userDTO.Id);
 
             // Redirect
-            if (userDTO.roleId == 1)
+            if (userDTO.Role.Name == RoleConstant.STUDENT)
+            {
+                HttpContext.Session.SetString("ROLE", RoleConstant.STUDENT);
                 return RedirectToPage("/Students/Groups/Index");
-            else if (userDTO.roleId == 2)
+            }
+            else if (userDTO.Role.Name == RoleConstant.TEACHER)
+            {
+                HttpContext.Session.SetString("ROLE", RoleConstant.TEACHER);
                 return RedirectToPage("/Teachers/Projects/Create");
+            }
             return Page();
         }
 

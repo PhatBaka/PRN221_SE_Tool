@@ -12,6 +12,7 @@ namespace SETool_Data.Repositories.IRepos
 		//CREATE
 		public System.Threading.Tasks.Task CreateUser(User userDTO);
 		//READ
+		public Task<User> GetUserById(int id);
 		public Task<IEnumerable<User>> GetUserNotHaveGroup();
 		public Task<IEnumerable<User>> GetUsersByGroupId(int groupId);
 		public Task<User> GetUserByPhone(string phone);

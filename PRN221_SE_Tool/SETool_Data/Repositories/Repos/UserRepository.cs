@@ -22,5 +22,7 @@ namespace SETool_Data.Repositories.Repos
         public Task<User> GetUserByPhone(string phone) => UserDAO.Instance.GetUserByPhone(phone);
 
         public Task<IEnumerable<User>> GetUserNotHaveGroup() => UserDAO.Instance.GetUsersNotHaveGroup();
+
+        public Task<User> GetUserById(int id) => UserDAO.Instance.GetUserById(id); 
     }
 }

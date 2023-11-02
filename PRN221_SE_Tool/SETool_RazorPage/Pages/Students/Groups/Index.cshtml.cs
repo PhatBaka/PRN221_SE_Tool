@@ -33,10 +33,9 @@ namespace SETool_RazorPage.Pages.Students.Groups
         {
             UserId = (int)HttpContext.Session.GetInt32("ID");
             Group = await _groupService.GetGroupByUserId(UserId);
-            Members = (IList<GetUserDTO>) await _userService.GetUsersByGroupId(Group.id);
             if (Group != null)
             {
-                
+                Members = (IList<GetUserDTO>) await _userService.GetUsersByGroupId(Group.Id);
                 if (_groupService.GetGroupByLeaderId(UserId) != null)
                     IsLeader = true;
             }

@@ -10,10 +10,11 @@ namespace SETool_Business.Services
     public interface IProjectService
     {
         // CREATE
+        public Task CreateGroupProject(CreateGroupProjectDTO groupProjectDTO, int leaderId);
         public Task CreateProject(CreateProjectDTO projectDTO, GetUserDTO coreTeacher, List<GetUserDTO> sideTeachers);
         // READ
         public Task<GetProjectDTO> GetProjectByName(string name);
-        public Task<IEnumerable<GetProjectDTO>> GetAll();
+        public Task<IEnumerable<GetProjectDTO>> GetAll(string status);
         public Task<IEnumerable<GetProjectDTO>> GetProjectsByCoreTeacherId(int Id);
         // UPDATE
         // DELETE
