@@ -10,7 +10,7 @@ namespace SETool_Business.Services
     public interface IGroupService
     {
         // CREATE
-        public Task CreateGroup(CreateGroupDTO createGroupDTO, List<GetUserDTO> userDTOs);
+        public Task CreateGroup(CreateGroupDTO createGroupDTO, List<GetUserDTO> studentDTOs);
         // READ
         public Task<GetGroupDTO> GetGroupByUserId(int userID);
         public Task<GetGroupDTO> GetGroupByLeaderId(int leaderID);

@@ -40,7 +40,7 @@ namespace SETool_Business.Services.Impls
 
 
 
-        public async System.Threading.Tasks.Task CreateGroup(CreateGroupDTO createGroupDTO, List<GetUserDTO> userDTOs)
+        public async System.Threading.Tasks.Task CreateGroup(CreateGroupDTO createGroupDTO, List<GetUserDTO> studentDTOs)
         {
             // Create new group
             try
@@ -52,7 +52,7 @@ namespace SETool_Business.Services.Impls
                 group = await _groupRepository.GetGroupByLeaderId((int)group.LeaderId);
                 User user;
                 // update leaderId to user
-                foreach(var item in userDTOs)
+                foreach(var item in studentDTOs)
                 {
                     user = await _userGenericRepository.GetById(item.id);
                     user.GroupId = group.Id;
