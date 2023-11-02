@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace SETool_Data.Repositories.IRepos
 {
-    public interface IProjectRepository
+    public interface IGroupProjectRepository
     {
         // CREATE
         // READ
-        public Task<Project> GetProjectByName(string name);
-        public Task<Project> GetProjectById(int id);
-        public Task<IEnumerable<Project>> GetAll(string status);
         // UPDATE
         // DELETE
     }

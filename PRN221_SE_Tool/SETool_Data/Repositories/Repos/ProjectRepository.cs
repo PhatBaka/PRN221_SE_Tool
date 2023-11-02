@@ -11,7 +11,7 @@ namespace SETool_Data.Repositories.Repos
 {
     public class ProjectRepository : IProjectRepository
     {
-        public Task<IEnumerable<Project>> GetAll() => ProjectDAO.Instance.GetAll();
+        public Task<IEnumerable<Project>> GetAll(string status) => ProjectDAO.Instance.GetAll(status);
         public Task<Project> GetProjectById(int id) => ProjectDAO.Instance.GetProjectById(id);
         public Task<Project> GetProjectByName(string name) => ProjectDAO.Instance.GetProjectByName(name);
     }

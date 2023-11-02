@@ -47,13 +47,14 @@ namespace SETool_Data.DAOs
             }
         }
 
-        public async Task<IEnumerable<Project>> GetAll()
+        public async Task<IEnumerable<Project>> GetAll(string status)
         {
             try
             {
                 using (var context = new SEToolContext())
                 {
                     return await context.Projects
+                                        .Where(p => p.Status == status)
                                         .Include(s => s.Semester)
                                         .ToListAsync();
                 }

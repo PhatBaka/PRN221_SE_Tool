@@ -22,19 +22,36 @@ namespace SETool_Business.Services.Impls
         private readonly IProjectRepository _projectRepository;
         private readonly IGenericRepository<Project> _genericProjectRepository;
         private readonly IGenericRepository<TeacherProject> _genericTeacherProjectRepository;
+        private readonly IGenericRepository<GroupProject> _genericGroupProjectRepository;
         private readonly IMapper _mapper;
 
         public ProjectService(ITeacherProjectRepository teacherProjectRepository
                                 , IProjectRepository projectRepository
                                 , IGenericRepository<Project> genericProjectRepository
                                 , IGenericRepository<TeacherProject> genericTeacherProjectRepository
+                                , IGenericRepository<GroupProject> genericGroupProjectRepository
                                 , IMapper mapper)
         {
             _teacherProjectrepository = teacherProjectRepository;
             _projectRepository = projectRepository;
+            _genericGroupProjectRepository = genericGroupProjectRepository;
             _genericProjectRepository = genericProjectRepository;
             _genericTeacherProjectRepository = genericTeacherProjectRepository;
             _mapper = mapper;
+        }
+
+        public async System.Threading.Tasks.Task CreateGroupProject(CreateGroupProjectDTO groupProjectDTO, GetUserDTO leader)
+        {
+            try
+            {
+                GroupProject entity = _mapper.Map<GroupProject>(groupProjectDTO);
+                await _genericGroupProjectRepository.Insert(entity);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.Message);
+                throw new Exception(ex.Message);
+            }
         }
 
         public async System.Threading.Tasks.Task CreateProject(CreateProjectDTO projectDTO, GetUserDTO coreTeacher, List<GetUserDTO> sideTeachers)
@@ -82,11 +99,11 @@ namespace SETool_Business.Services.Impls
             }
         }
 
-        public async Task<IEnumerable<GetProjectDTO>> GetAll()
+        public async Task<IEnumerable<GetProjectDTO>> GetAll(string status)
         {
             try
             {
-                IEnumerable<Project> projects = await _projectRepository.GetAll();
+                IEnumerable<Project> projects = await _projectRepository.GetAll(status);
                 IEnumerable<GetProjectDTO> projectDTOs = _mapper.Map<IEnumerable<GetProjectDTO>>(projects);
                 return projectDTOs;
             }   
