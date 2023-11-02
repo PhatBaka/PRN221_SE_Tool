@@ -1,0 +1,74 @@
+﻿@page
+@model SETool_RazorPage.Pages.Admins.Semesters.IndexModel
+@{
+}
+
+<div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Semester</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Current semester: @Model.CurrentSemester.Name</p>
+                                <table class="table table-striped dataTable mt-4" role="grid"
+                                       aria-describedby="user-list-page-info">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Semesters[0].Id)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Semesters[0].Name)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Semesters[0].StartDate)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Semesters[0].EndDate)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Semesters[0].Status)
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in @Model.Semesters)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Id)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EndDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Status)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SETool_Business.Exceptions;
-using SETool_Business.Services;
 using SETool_Business.Services.Extensions;
+using SETool_Business.Services;
 using SETool_Data.Models.DTOs;
 using SETool_RazorPage.ViewModel;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace SETool_RazorPage.Pages
 {
-    public class RegisterPageModel : PageModel, IValidatableObject
+    public class RegisterModel : PageModel
     {
         private readonly IRoleService _roleService;
         private readonly IUserService _userService;
 
-        public RegisterPageModel(IRoleService roleService
+        public RegisterModel(IRoleService roleService
                                     , IUserService userService)
         {
             _roleService = roleService;
@@ -70,7 +69,7 @@ namespace SETool_RazorPage.Pages
                 lastName = RegisterViewModel.LastName,
                 roleID = Int32.Parse(SelectedRole)
             };
-            
+
             // Create new user and return id
             await _userService.CreateUser(entity);
 
@@ -80,9 +79,9 @@ namespace SETool_RazorPage.Pages
 
             // Redirect
             if (userDTO.roleId == 1)
-                return RedirectToPage("/Students/Index");
+                return RedirectToPage("/Students/Groups/Index");
             else if (userDTO.roleId == 2)
-                return RedirectToPage("/Teachers/Index");
+                return RedirectToPage("/Teachers/Projects/Create");
             return Page();
         }
 
@@ -112,3 +111,4 @@ namespace SETool_RazorPage.Pages
         }
     }
 }
+

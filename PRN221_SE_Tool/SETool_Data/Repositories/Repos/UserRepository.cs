@@ -17,6 +17,10 @@ namespace SETool_Data.Repositories.Repos
 
 		public Task<User> GetUserByEmailAndPassowrd(string email, string password) => UserDAO.Instance.GetUserByEmailAndPassword(email, password);
 
+        public Task<IEnumerable<User>> GetUsersByGroupId(int groupId) => UserDAO.Instance.GetUsersByGroupId(groupId);
+
         public Task<User> GetUserByPhone(string phone) => UserDAO.Instance.GetUserByPhone(phone);
+
+        public Task<IEnumerable<User>> GetUserNotHaveGroup() => UserDAO.Instance.GetUsersNotHaveGroup();
     }
 }

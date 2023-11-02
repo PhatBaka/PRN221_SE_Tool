@@ -27,12 +27,12 @@ namespace SETool_Business.Services.Impls
             _mapper = mapper;
         }
 
-        public async Task<List<RoleDTO>> GetAllRoles()
+        public async Task<List<GetRoleDTO>> GetAllRoles()
         {
             try
             {
                 IEnumerable<Role> roleList = await _genericRoleRepository.GetAll();
-                List<RoleDTO> list = _mapper.Map<List<RoleDTO>>(roleList);
+                List<GetRoleDTO> list = _mapper.Map<List<GetRoleDTO>>(roleList);
                 return list;
             }
             catch (Exception e)

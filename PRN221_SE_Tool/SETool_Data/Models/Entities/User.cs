@@ -28,7 +28,6 @@ namespace SETool_Data.Models.Entities
         public string District { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
-        public bool? IsLeader { get; set; }
         public int? GroupId { get; set; }
         public int? RoleId { get; set; }
         public DateTime? AuthoriizedDate { get; set; }

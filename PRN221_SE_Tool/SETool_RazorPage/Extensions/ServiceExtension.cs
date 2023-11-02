@@ -18,15 +18,31 @@ namespace SETool_RazorPage.Extensions
             //  USER
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             // ROLE
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+
+            // GROUP
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IGroupService, GroupService>();
+            services.AddSingleton<IGroupRepository, GroupRepository>();
+
+            // PROJECT
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddSingleton<IProjectRepository, ProjectRepository>();
+
+            // SEMESTER
+            services.AddScoped<ISemesterRepository, SemesterRepository>();
+            services.AddScoped<ISemesterService, SemesterService>();
+            services.AddSingleton<ISemesterRepository, SemesterRepository>();
 
             // GENERIC
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }

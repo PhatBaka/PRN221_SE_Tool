@@ -1,0 +1,114 @@
+﻿@page
+@model SETool_RazorPage.Pages.RegisterModel
+
+@{
+    ViewData["Title"] = "RegisterPage";
+}
+
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container">
+            <div class="row align-items-center justify-content-center height-self-center">
+                <div class="col-lg-8">
+                    <div class="card auth-card">
+                        <div class="card-body p-0">
+                            <div class="d-flex align-items-center auth-content">
+                                <div class="col-lg-6 bg-primary content-left">
+                                    <div class="p-3">
+                                        <h2 class="mb-2 text-white">Sign Up</h2>
+                                        <p>Create your Webkit account.</p>
+                                        <form method="post">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input asp-for="RegisterViewModel.FirstName" class="floating-input form-control" placeholder="First Name" />
+                                                        <span asp-validation-for="RegisterViewModel.FirstName" style="color: white"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input asp-for="RegisterViewModel.LastName" class="floating-input form-control" placeholder="Last Name" />
+                                                        <span asp-validation-for="RegisterViewModel.LastName" style="color: white"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input asp-for="RegisterViewModel.Email" class="floating-input form-control" placeholder="Email" />
+                                                        <span asp-validation-for="RegisterViewModel.Email" style="color: white"></span>
+                                                        @{
+                                                            if (@Model.EmailExistedMessage != null)
+                                                            {
+                                                                <span style="color: white">@Model.EmailExistedMessage</span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <select asp-for="SelectedRole" class="form-control">
+                                                            @foreach (var role in @Model.RoleList)
+                                                            {
+                                                                <option value="@role.Value">@role.Text</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input asp-for="RegisterViewModel.Password" class="floating-input form-control" type="password" placeholder="Password" />
+                                                        <span asp-validation-for="RegisterViewModel.Password" style="color: white"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="floating-label form-group">
+                                                        <input asp-for="RegisterViewModel.ConfirmPassword" class="floating-input form-control" type="password" placeholder="Confirm password" />
+                                                        <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: white"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <input type="submit" value="Sign up" class="btn btn-white" asp-page-handler="Submit" />
+                                            </div>
+                                            <p class="mt-3">
+                                                Already have an Account <a asp-page="/Login" class="text-white text-underline">Sign In</a>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 content-right">
+                                    <img src="~/images/login/01.png" class="img-fluid image-right" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Backend Bundle JavaScript -->
+<script src="~/js/backend-bundle.min.js"></script>
+
+<!-- Table Treeview JavaScript -->
+<script src="~/js/table-treeview.js"></script>
+
+<!-- Chart Custom JavaScript -->
+<script src="~/js/customizer.js"></script>
+
+<!-- Chart Custom JavaScript -->
+<script async src="~/js/chart-custom.js"></script>
+<!-- Chart Custom JavaScript -->
+<script async src="~/js/slider.js"></script>
+
+<!-- app JavaScript -->
+<script src="~/js/app.js"></script>
+
+<script src="~/vendor/moment.min.js"></script>

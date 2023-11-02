@@ -11,8 +11,26 @@ namespace SETool_Data.DAOs
 {
 	public class GenericDAO<T> where T : class
 	{
+        private static GenericDAO<T> instance = null;
+        private static readonly object instanceLock = new object();
 
-		public async Task<int> Update(T obj)
+        private GenericDAO()
+        {
+        }
+
+        public static GenericDAO<T> Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null) instance = new GenericDAO<T>();
+                    return instance;
+                }
+            }
+        }
+
+        public async Task<int> Update(T obj)
 		{
 			try
 			{

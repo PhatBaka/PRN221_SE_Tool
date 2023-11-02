@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DTOs\CommonDTOs\**" />
+    <EmbeddedResource Remove="Models\DTOs\CommonDTOs\**" />
+    <None Remove="Models\DTOs\CommonDTOs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Models\Entities\" />
   </ItemGroup>
 

@@ -10,17 +10,15 @@ namespace SETool_Data.Repositories.Repos
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
-		private GenericDAO<T> dao = new GenericDAO<T>();
+		public async Task<int> Delete(object id) => await GenericDAO<T>.Instance.Delete(id);
 
-		public async Task<int> Delete(object id) => await dao.Delete(id);
+		public async Task<IEnumerable<T>> GetAll() => await GenericDAO<T>.Instance.GetAll();
 
-		public async Task<IEnumerable<T>> GetAll() => await dao.GetAll();
+		public async Task<T> GetById(object id) => await GenericDAO<T>.Instance.GetById(id);
 
-		public async Task<T> GetById(object id) => await dao.GetById(id);
+		public async Task<int> Insert(T obj) => await GenericDAO<T>.Instance.Insert(obj);
 
-		public async Task<int> Insert(T obj) => await dao.Insert(obj);
-
-		public async Task<int> Update(T obj) => await dao.Update(obj);
+		public async Task<int> Update(T obj) => await GenericDAO<T>.Instance.Update(obj);
 
 	}
 }

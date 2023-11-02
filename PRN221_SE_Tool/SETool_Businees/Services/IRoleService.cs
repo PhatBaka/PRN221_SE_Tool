@@ -12,7 +12,7 @@ namespace SETool_Business.Services
         // CREATE
        
         // READ
-        public Task<List<RoleDTO>> GetAllRoles();
+        public Task<List<GetRoleDTO>> GetAllRoles();
 
         // UPDATE
 

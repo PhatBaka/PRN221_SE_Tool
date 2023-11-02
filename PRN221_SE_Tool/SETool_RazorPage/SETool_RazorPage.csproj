@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -10,10 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SETool_Businees\SETool_Business.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Enums\" />
   </ItemGroup>
 
   <ItemGroup>

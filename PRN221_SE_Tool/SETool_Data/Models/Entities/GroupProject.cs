@@ -12,6 +12,7 @@ namespace SETool_Data.Models.Entities
         public DateTime? RegisterDate { get; set; }
         public string Status { get; set; }
         public int? ApprovedBy { get; set; }
+        public DateTime? ApprovedDate { get; set; }
 
         public virtual Group Group { get; set; }
         public virtual Project Project { get; set; }
