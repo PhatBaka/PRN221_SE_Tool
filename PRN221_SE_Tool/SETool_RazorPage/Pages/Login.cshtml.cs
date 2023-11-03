@@ -25,6 +25,7 @@ namespace SETool_RazorPage.Pages
 
         [BindProperty]
         public LoginViewModel LoginViewModel { get; set; }
+        public string Message { get; set;}
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -61,7 +62,8 @@ namespace SETool_RazorPage.Pages
                 }
             }
 
-            return RedirectToPage("./Index");
+            Message = "Login fail";
+            return Page();
         }
     }
 }
