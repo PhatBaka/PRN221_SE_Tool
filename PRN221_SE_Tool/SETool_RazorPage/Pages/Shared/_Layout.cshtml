@@ -28,18 +28,23 @@
             result = System.Text.Encoding.UTF8.GetString(sessionName);
         }
     }
-    @if (result.Equals(RoleConstant.ADMIN))
+    @if (!Context.Request.Path.StartsWithSegments("/", StringComparison.OrdinalIgnoreCase)
+        && !Context.Request.Path.StartsWithSegments("/Register", StringComparison.OrdinalIgnoreCase))
     {
-        @await Html.PartialAsync("_AdminNavbar")
+        @if (result.Equals(RoleConstant.ADMIN))
+        {
+            @await Html.PartialAsync("_AdminNavbar")
+        }
+        else if (result.Equals(RoleConstant.STUDENT))
+        {
+            @await Html.PartialAsync("_StudentNavbar")
+        }
+        else if (result.Equals(RoleConstant.TEACHER))
+        {
+            @await Html.PartialAsync("_TeacherNavbar")
+        }
     }
-    else if (result.Equals(RoleConstant.STUDENT))
-    {
-        @await Html.PartialAsync("_StudentNavbar")
-    }
-    else if (result.Equals(RoleConstant.TEACHER))
-    {
-        @await Html.PartialAsync("_TeacherNavbar")
-    }
+
 
     <div class="container">
         <main role="main" class="pb-3">
