@@ -12,7 +12,7 @@ namespace SETool_Data.Repositories.IRepos
     {
         // CREATE
         // READ
-        public Task<Group> GetGroupByLeaderId(int leaderId);
+        public Task<Group> GetGroupByLeaderId(int id);
         // UPDATE
         // DELETE
     }

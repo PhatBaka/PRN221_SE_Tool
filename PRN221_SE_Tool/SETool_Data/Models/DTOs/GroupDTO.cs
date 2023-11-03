@@ -26,7 +26,6 @@ namespace SETool_Data.Models.DTOs
 	public class GetGroupDTO : GroupDTO
 	{
 		public int Id { get; set; }
-		public string Status { get; set; }
-        public GetUserDTO Leader { get; set; }
+        public int LeaderId { get; set; }
     }
 }

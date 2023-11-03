@@ -11,6 +11,7 @@ namespace SETool_Data.Repositories.IRepos
     {
         // CREATE
         // READ
+        public Task<IEnumerable<GroupProject>> GetGroupProjectByGroupId(int id);
         // UPDATE
         // DELETE
     }

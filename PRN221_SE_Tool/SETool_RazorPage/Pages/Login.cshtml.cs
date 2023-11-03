@@ -27,6 +27,17 @@ namespace SETool_RazorPage.Pages
         public LoginViewModel LoginViewModel { get; set; }
         public string Message { get; set;}
 
+        public void OnGet()
+        {
+            var sessionKeys = HttpContext.Session.Keys.ToList();
+            if (sessionKeys != null ||
+                sessionKeys.Count != 0)
+            foreach (var key in sessionKeys)
+            {
+                HttpContext.Session.Remove(key);
+            }
+        }
+
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
@@ -38,7 +49,7 @@ namespace SETool_RazorPage.Pages
             var email = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AdminAccount:Email").Value;
             var password = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AdminAccount:Password").Value;
 
-            if (string.Equals(email, LoginViewModel.Email, StringComparison.OrdinalIgnoreCase)
+            if (email.Equals(LoginViewModel.Email)
                 && password.Equals(LoginViewModel.Password))
             {
                 HttpContext.Session.SetString("ROLE", "ADMIN");

@@ -82,7 +82,7 @@ namespace SETool_RazorPage.Pages.Teachers.Projects
             {
                 Name = ProjectViewModel.Name,
                 Description = ProjectViewModel.Description,
-                Status = "ACTIVE",
+                Status = ProjectConstant.OPEN_FOR_REGISTER,
                 SemesterId = CurrentSemester.Id
             };
             

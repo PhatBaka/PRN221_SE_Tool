@@ -55,6 +55,8 @@ namespace SETool_Data.DAOs
                 {
                     return await context.Projects
                                         .Where(p => p.Status == status)
+                                        .Include(p => p.TeacherProjects)
+                                        .Include(p => p.GroupProjects)
                                         .Include(s => s.Semester)
                                         .ToListAsync();
                 }

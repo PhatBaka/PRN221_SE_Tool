@@ -1,6 +1,22 @@
 ﻿@page
+@using SETool_Data.Models.Constants;
 @model SETool_RazorPage.Pages.Admins.Semesters.IndexModel
 @{
+}
+
+@{
+    var sessionName = new Byte[20];
+    bool roleOK = HttpContext.Session.TryGetValue("ROLE", out sessionName);
+    string result = "";
+    if (roleOK)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+    }
+}
+
+@if(result == RoleConstant.ADMIN)
+{
+    
 }
 
 <div class="content-page">

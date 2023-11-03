@@ -13,5 +13,6 @@ namespace SETool_Data.Models.Constants
         public const string APPROVED = "APPROVED";
         public const string DECLINED = "DECLINED";
         public const string CLOSED = "CLOSED";
+        public const string PENDING = "PENDING";
     }
 }

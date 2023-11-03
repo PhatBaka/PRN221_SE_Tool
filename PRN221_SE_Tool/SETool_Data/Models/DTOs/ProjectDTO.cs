@@ -21,5 +21,8 @@ namespace SETool_Data.Models.DTOs
         public int Id { get; set; }
         public string Status { get; set; }
         public GetSemesterDTO Semester { get; set; }
+        public List<GetTeacherProjectDTO> TeacherProjects { get; set; }
+        public List<GetGroupProjectDTO>? GroupProjects { get; set; }
+        public List<GetMilestoneDTO> Milestones { get; set; }
     }
 }

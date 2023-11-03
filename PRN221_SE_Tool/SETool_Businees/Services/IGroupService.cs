@@ -12,8 +12,7 @@ namespace SETool_Business.Services
         // CREATE
         public Task CreateGroup(CreateGroupDTO createGroupDTO, List<GetUserDTO> studentDTOs);
         // READ
-        public Task<GetGroupDTO> GetGroupByUserId(int userID);
-        public Task<GetGroupDTO> GetGroupByLeaderId(int leaderID);
+        public Task<GetGroupDTO> GetGroupByUserId(int id);
         // UPDATE
         // DELETE
     }

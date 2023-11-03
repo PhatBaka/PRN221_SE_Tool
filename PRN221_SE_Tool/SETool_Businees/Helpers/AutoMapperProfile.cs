@@ -50,6 +50,7 @@ namespace SETool_Business.Helpers
             CreateMap<GroupProject, GroupProjectDTO>().ReverseMap();
             CreateMap<GroupProject, CreateGroupProjectDTO>().ReverseMap();
             CreateMap<GroupProject, UpdateGroupProjectDTO>().ReverseMap();
+            CreateMap<GroupProject, GetGroupProjectDTO>().ReverseMap();
         }
     }
 }

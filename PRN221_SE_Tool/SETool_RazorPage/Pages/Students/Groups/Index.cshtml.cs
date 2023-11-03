@@ -7,6 +7,7 @@ using SETool_Data.Models.DTOs;
 using SETool_RazorPage.ViewModel;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace SETool_RazorPage.Pages.Students.Groups
@@ -26,6 +27,7 @@ namespace SETool_RazorPage.Pages.Students.Groups
         public int UserId;
         public GetGroupDTO Group;
         public IList<GetUserDTO> Members;
+        public IList<MemberViewModel> MemberViewModels = new List<MemberViewModel>();
         
         public bool IsLeader;
 
@@ -34,10 +36,24 @@ namespace SETool_RazorPage.Pages.Students.Groups
             UserId = (int)HttpContext.Session.GetInt32("ID");
             Group = await _groupService.GetGroupByUserId(UserId);
             if (Group != null)
-            {
-                Members = (IList<GetUserDTO>) await _userService.GetUsersByGroupId(Group.Id);
-                if (_groupService.GetGroupByLeaderId(UserId) != null)
+            {   
+                if(_groupService.GetGroupByUserId(UserId).Result.LeaderId == UserId)
+                {
                     IsLeader = true;
+                }
+                Members = (IList<GetUserDTO>) await _userService.GetUsersByGroupId(Group.Id);
+                foreach (var member in Members)
+                {
+                    MemberViewModel memberViewModel = new()
+                    {
+                        Email = member.Email,
+                        FirstName = member.FirstName,
+                        LastName = member.LastName,
+                        Id = member.Id,
+                        IsLeader = (Group.LeaderId == member.Id) ? true : false 
+                    };
+                    MemberViewModels.Add(memberViewModel);
+                }
             }
             return Page();
         }

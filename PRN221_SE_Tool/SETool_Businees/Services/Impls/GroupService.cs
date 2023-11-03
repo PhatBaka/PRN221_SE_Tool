@@ -47,11 +47,9 @@ namespace SETool_Business.Services.Impls
             {
                 // create new group
                 Group group = _mapper.Map<Group>(createGroupDTO);
-                group.Status = ObjectStatusConstant.ACTIVE;
                 await _groupGenericRepository.Insert(group);
-                group = await _groupRepository.GetGroupByLeaderId((int)group.LeaderId);
+                group = await _groupRepository.GetGroupByLeaderId(createGroupDTO.LeaderId);
                 User user;
-                // update leaderId to user
                 foreach(var item in studentDTOs)
                 {
                     user = await _userGenericRepository.GetById(item.Id);
@@ -66,48 +64,17 @@ namespace SETool_Business.Services.Impls
             }
         }
 
-        public async Task<GetGroupDTO> GetGroupByLeaderId(int leaderID)
+        public async Task<GetGroupDTO> GetGroupByUserId(int id)
         {
             try
             {
-                // Get user by userID
-                var user = await _userGenericRepository.GetById(leaderID);
+                User user = await _userGenericRepository.GetById(id);
                 Group group = await _groupGenericRepository.GetById(user.GroupId);
-                // Check group id of user
-                if (group == null)
-                    return null;
-                else
-                {
-                    GetGroupDTO groupDTO = _mapper.Map<GetGroupDTO>(group);
-                    return groupDTO;
-                }
+                return _mapper.Map<GetGroupDTO>(group);
             }
             catch (Exception ex)
             {
-                LoggerService.Logger(ex.ToString());
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<GetGroupDTO> GetGroupByUserId(int userID)
-        {
-            try
-            {
-                // Get user by userID
-                var user = await _userGenericRepository.GetById(userID);
-                Group group = await _groupGenericRepository.GetById(user.GroupId);
-                // Check group id of user
-                if (group == null)
-                    return null;
-                else
-                {
-                    GetGroupDTO groupDTO = _mapper.Map<GetGroupDTO>(group);
-                    return groupDTO;
-                }
-            }
-            catch (Exception ex)
-            {
-                LoggerService.Logger(ex.ToString());
+                LoggerService.Logger(ex.Message);
                 throw new Exception(ex.Message);
             }
         }

@@ -23,6 +23,7 @@ namespace SETool_Data.Models.DTOs
     }
     public class GetTeacherProjectDTO : TeacherProjectDTO
     {
-        
+        public GetUserDTO Teacher;
+        public List<GetProjectDTO> Projects;
     }
 }

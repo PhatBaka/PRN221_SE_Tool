@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SETool_Data.DAOs;
 using SETool_Data.Helpers.Logger;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
@@ -22,10 +23,12 @@ namespace SETool_Business.Services.Impls
         private readonly IGenericRepository<Project> _genericProjectRepository;
         private readonly IGenericRepository<TeacherProject> _genericTeacherProjectRepository;
         private readonly IGenericRepository<GroupProject> _genericGroupProjectRepository;
+        private readonly IGroupProjectRepository _groupProjectRepository;
         private readonly IMapper _mapper;
 
         public ProjectService(ITeacherProjectRepository teacherProjectRepository
                                 , IProjectRepository projectRepository
+                                , IGroupProjectRepository groupProjectRepository
                                 , IGenericRepository<Project> genericProjectRepository
                                 , IGenericRepository<TeacherProject> genericTeacherProjectRepository
                                 , IGenericRepository<GroupProject> genericGroupProjectRepository
@@ -36,6 +39,7 @@ namespace SETool_Business.Services.Impls
             _genericGroupProjectRepository = genericGroupProjectRepository;
             _genericProjectRepository = genericProjectRepository;
             _genericTeacherProjectRepository = genericTeacherProjectRepository;
+            _groupProjectRepository = groupProjectRepository;
             _mapper = mapper;
         }
 
@@ -59,7 +63,6 @@ namespace SETool_Business.Services.Impls
             {
                 // create new project
                 Project project = _mapper.Map<Project>(projectDTO);
-                project.Status = "IN PENDING";
                 await _genericProjectRepository.Insert(project);
                 GetProjectDTO getProjectDTO = await GetProjectByName(projectDTO.Name);
 
@@ -69,7 +72,7 @@ namespace SETool_Business.Services.Impls
                     ProjectId = getProjectDTO.Id,
                     TeacherId = coreTeacher.Id,
                     IsCoreTeacher = true,
-                    Status = "ACTIVE"
+                    Status = ProjectConstant.APPROVED
                 };
 
                 if (sideTeachers != null)
@@ -82,7 +85,7 @@ namespace SETool_Business.Services.Impls
                             ProjectId = getProjectDTO.Id,
                             TeacherId = sideTeacher.Id,
                             IsCoreTeacher = false,
-                            Status = "PENDING"
+                            Status = ProjectConstant.PENDING
                         };
                         TeacherProject sideTeacherProject = _mapper.Map<TeacherProject>(sideTeacherProjectDTO);
                         await _genericTeacherProjectRepository.Insert(sideTeacherProject);
@@ -140,6 +143,20 @@ namespace SETool_Business.Services.Impls
                     projects.Add(await _projectRepository.GetProjectById(teacherProject.ProjectId));
                 }
                 return _mapper.Map<IEnumerable<GetProjectDTO>>(projects);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.Logger(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<GetGroupProjectDTO>> GetProjectsByGroupId(int id)
+        {
+            try
+            {
+                IEnumerable<GroupProject> groupProjects = await _groupProjectRepository.GetGroupProjectByGroupId(id);
+                return _mapper.Map<IEnumerable<GetGroupProjectDTO>>(groupProjects);
             }
             catch (Exception ex)
             {

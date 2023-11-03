@@ -22,7 +22,6 @@
                                 You don't belong to any group right now.
                             </p>
                             <a class="btn btn-primary" asp-page="./Create">Create new group</a>
-                            <a class="btn btn-primary" asp-page="./Create">Request to a group</a>
                         }
                         else 
                         {
@@ -31,22 +30,25 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].Id)
+                                            @Html.DisplayNameFor(model => model.MemberViewModels[0].Id)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].FirstName)
+                                            @Html.DisplayNameFor(model => model.MemberViewModels[0].FirstName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].LastName)
+                                            @Html.DisplayNameFor(model => model.MemberViewModels[0].LastName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Members[0].Email)
+                                            @Html.DisplayNameFor(model => model.MemberViewModels[0].Email)
+                                        </th> 
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.MemberViewModels[0].IsLeader)
                                         </th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in @Model.Members)
+                                    @foreach (var item in @Model.MemberViewModels)
                                     {
                                         <tr>
                                             <td>
@@ -62,11 +64,20 @@
                                                 @Html.DisplayFor(modelItem => item.Email)
                                             </td>
                                             <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm bg-primary" data-toggle="tooltip" data-placement="top" title=""
-                                                       data-original-title="Remove" asp-page="./Create" asp-route-id="@item.Id"><i class="ri-delete-bin-line mr-0"></i></a>
-                                                </div>
+                                                @if(item.IsLeader)
+                                                {
+                                                    <p>x</p>
+                                                }
                                             </td>
+                                            @if (Model.IsLeader)
+                                            {
+                                                <td>
+                                                    <div class="flex align-items-center list-user-action">
+                                                        <a class="btn btn-sm bg-primary" data-toggle="tooltip" data-placement="top" title=""
+                                                           data-original-title="Remove" asp-page="./Create" asp-route-id="@item.Id"><i class="ri-delete-bin-line mr-0"></i></a>
+                                                    </div>
+                                                </td>
+                                            }
                                         </tr>
                                     }
                                 </tbody>

@@ -15,7 +15,8 @@ namespace SETool_Business.Services
         // READ
         public Task<GetProjectDTO> GetProjectByName(string name);
         public Task<IEnumerable<GetProjectDTO>> GetAll(string status);
-        public Task<IEnumerable<GetProjectDTO>> GetProjectsByCoreTeacherId(int Id);
+        public Task<IEnumerable<GetProjectDTO>> GetProjectsByCoreTeacherId(int id);
+        public Task<IEnumerable<GetGroupProjectDTO>> GetProjectsByGroupId(int id);
         // UPDATE
         // DELETE
     }

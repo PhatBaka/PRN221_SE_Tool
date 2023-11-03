@@ -1,4 +1,5 @@
 ﻿using SETool_Data.DAOs;
+using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_Data.Repositories.IRepos;
 using System;
@@ -11,7 +12,6 @@ namespace SETool_Data.Repositories.Repos
 {
     public class GroupRepository : IGroupRepository
     {
-        public Task<Group> GetGroupByLeaderId(int leaderId) => GroupDAO.Instance.GetGroupByLeaderId(leaderId);
-
+        public Task<Group> GetGroupByLeaderId(int id) => GroupDAO.Instance.GetGroupByLeaderId(id);
     }
 }

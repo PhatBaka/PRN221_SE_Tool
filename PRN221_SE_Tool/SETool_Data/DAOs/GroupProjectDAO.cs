@@ -4,40 +4,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SETool_Data.DAOs
 {
-    public class GroupDAO
+    public class GroupProjectDAO
     {
-        private static GroupDAO instance = null;
+        private static GroupProjectDAO instance = null;
         private static readonly object instanceLock = new object();
 
-        private GroupDAO()
+        private GroupProjectDAO()
         {
         }
 
-        public static GroupDAO Instance
+        public static GroupProjectDAO Instance
         {
             get
             {
                 lock (instanceLock)
                 {
-                    if (instance == null) instance = new GroupDAO();
+                    if (instance == null) instance = new GroupProjectDAO();
                     return instance;
                 }
             }
         }
 
-        public async Task<Models.Entities.Group> GetGroupByLeaderId(int id)
+        public async Task<IEnumerable<GroupProject>> GetGroupProjectByGroupId(int id)
         {
             try
             {
                 using (var context = new SEToolContext())
                 {
-                    return await context.Groups
-                                        .FirstOrDefaultAsync(g => g.LeaderId == id);
+                    return await context.GroupProjects
+                                        .Include(gp => gp.Project)
+                                        .Include(gp => gp.Group)
+                                        .Where(gp => gp.GroupId == id)
+                                        .ToListAsync();
                 }
             }
             catch (Exception ex)

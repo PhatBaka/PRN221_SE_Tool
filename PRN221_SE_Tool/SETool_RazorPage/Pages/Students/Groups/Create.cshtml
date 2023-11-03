@@ -23,21 +23,23 @@
                             <div class="form-group">
                                 <input class="form-control" asp-for="SearchString">
                                 <div class="text-center">
-                                                <input type="submit" value="Add By ID" class="btn btn-white" asp-page-handler="Submit" />
+                                                <input type="submit" value="Enter student ID" class="btn btn-white" asp-page-handler="Submit" />
                                             </div>
                             </div>
                         </form>
                         @if(@Model.Message != null)
                         {
-                            <p>Model.Message</p>
+                            <p>@Model.Message</p>
                         }
                         <form method="post">
                             <p>Your new group</p>
                             <div class="form-group">
                                 <input class="form-control" asp-for="GroupViewModel.Name">
+                                <span asp-validation-for="GroupViewModel.Name"></span>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" asp-for="GroupViewModel.Description">
+                                <span asp-validation-for="GroupViewModel.Description"></span>
                             </div>
                             @* table for group member  *@
                             @if (Model.UsersInPending == null

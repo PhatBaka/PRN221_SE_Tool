@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SETool_Business.Services;
 using SETool_Business.Services.Impls;
 using SETool_Data.DAOs;
+using SETool_Data.Models.Constants;
 using SETool_Data.Models.DTOs;
 using SETool_Data.Models.Entities;
 using SETool_RazorPage.Extensions;
@@ -48,10 +49,29 @@ namespace SETool_RazorPage.Pages.Students.Groups
             UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
             if (SearchString != null)
             {
-                GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
                 UsersInPending ??= new List<GetUserDTO>();
-                // check user in another group or not
-                if (await _groupService.GetGroupByUserId(user.Id) != null)
+                GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
+                // check this user is not exist
+                if (user == null)
+                {
+                    Message = "This student is not existed";
+                }
+                // check if this id is teacher
+                else if (_userService.GetUserById(Int32.Parse(SearchString)).Result.Role.Name == RoleConstant.TEACHER)
+                {
+                    Message = "This Id is not student";
+                }
+                // check is your self
+                else if (Int32.Parse(SearchString) == UserId)
+                {
+                    Message = "You can not add your self";
+                }
+                // check user is in another group
+                else if (await _groupService.GetGroupByUserId(user.Id) != null)
+                {
+                    Message = "This student is in another group";
+                }
+                else
                 {
                     if (UsersInPending != null)
                     {
@@ -60,19 +80,26 @@ namespace SETool_RazorPage.Pages.Students.Groups
                             return Page();
                         UsersInPending.Add(user);
                         SessionExtension.SetObjectAsJson(HttpContext.Session, "PENDINUUSER", UsersInPending);
-                    }                  
+                    }
                 }
             }
-            
             return Page();
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
+
             UserId = (int)HttpContext.Session.GetInt32("ID");
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            if (UsersInPending.Count <= 3 && UsersInPending.Count >= 4)
+            {
+                Message = "A group can 3-4 members";
                 return Page();
             }
 
@@ -81,7 +108,8 @@ namespace SETool_RazorPage.Pages.Students.Groups
             {
                 Name = GroupViewModel.Name,
                 Description = GroupViewModel.Description,
-                LeaderId = UserId
+                LeaderId = UserId,
+                Status = GroupConstant.ACTIVE 
             };
 
             if (UsersInPending != null)
