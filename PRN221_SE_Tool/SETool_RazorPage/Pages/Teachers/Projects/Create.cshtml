@@ -16,9 +16,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p>
-                            Create new project
-                        </p>
+                        <p>Create new project</p>
+
                         <form method="get">
                             <div class="form-group">
                                 <input class="form-control" asp-for="SearchString">
@@ -27,10 +26,12 @@
                                 </div>
                             </div>
                         </form>
-                        @if(Model.Message != null)
+
+                        @if (Model.Message != null)
                         {
                             <p>@Model.Message</p>
                         }
+
                         <form method="post">
                             <p>Your new project</p>
                             <div class="form-group">
@@ -39,55 +40,40 @@
                             <div class="form-group">
                                 <input class="form-control" asp-for="ProjectViewModel.Description">
                             </div>
-                            @* table for group member  *@
+
                             @if (Model.UsersInPending != null)
                             {
-                                <table class="table table-striped dataTable mt-4" role="grid"
-                                       aria-describedby="user-list-page-info">
+                                <table class="table table-striped dataTable mt-4" role="grid" aria-describedby="user-list-page-info">
                                     <thead>
                                         <tr>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.UsersInPending[0].Id)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.UsersInPending[0].FirstName)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.UsersInPending[0].LastName)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.UsersInPending[0].Email)
-                                            </th>
+                                            <th>@Html.DisplayNameFor(model => model.UsersInPending[0].Id)</th>
+                                            <th>@Html.DisplayNameFor(model => model.UsersInPending[0].FirstName)</th>
+                                            <th>@Html.DisplayNameFor(model => model.UsersInPending[0].LastName)</th>
+                                            <th>@Html.DisplayNameFor(model => model.UsersInPending[0].Email)</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in @Model.UsersInPending)
+                                        @foreach (var item in Model.UsersInPending)
                                         {
                                             <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Id)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.FirstName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.LastName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Email)
-                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                                 <td>
                                                     <div class="flex align-items-center list-user-action">
-                                                        <a class="btn btn-sm bg-primary" data-toggle="tooltip" data-placement="top" title=""
-                                                           data-original-title="Remove" asp-page="./Create" asp-route-id="@item.Id"><i class="ri-delete-bin-line mr-0"></i></a>
+                                                        <a class="btn btn-sm bg-primary" data-toggle="tooltip" data-placement="top" title="Remove"
+                                                           asp-page="./Create" asp-route-id="@item.Id">
+                                                            <i class="ri-delete-bin-line mr-0"></i>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
-                            }                         
+                            }
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="submit" class="btn bg-danger">Cancel</button>
                         </form>
@@ -99,5 +85,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
