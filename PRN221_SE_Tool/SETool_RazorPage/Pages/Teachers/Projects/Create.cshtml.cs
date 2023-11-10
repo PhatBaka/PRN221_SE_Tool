@@ -88,6 +88,7 @@ namespace SETool_RazorPage.Pages.Teachers.Projects
             
             UsersInPending ??= new List<GetUserDTO>();
             UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
+          
             await _projectService.CreateProject(createProjectDTO, await _userService.GetUserById(UserId), UsersInPending);
 
             return RedirectToPage("./Index");

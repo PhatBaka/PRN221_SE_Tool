@@ -44,47 +44,74 @@ namespace SETool_RazorPage.Pages.Students.Groups
 
         public async Task<IActionResult> OnGetAsync()
         {
-            UserId = (int) HttpContext.Session.GetInt32("ID");
-            UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
-            if (SearchString != null)
+            try
             {
-                GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
-                UsersInPending ??= new List<GetUserDTO>();
-                //  Check if user in pending already edded
-                if (UsersInPending.FirstOrDefault(u => u.Id == user.Id) != null)
-                    return Page();
-                UsersInPending.Add(user);
-                SessionExtension.SetObjectAsJson(HttpContext.Session, "PENDINUUSER", UsersInPending);
+				UserId = (int)HttpContext.Session.GetInt32("ID");
+				UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
+				if (SearchString != null)
+				{
+					GetUserDTO user = await _userService.GetUserById(Int32.Parse(SearchString));
+					UsersInPending ??= new List<GetUserDTO>();
+					//  Check if user in pending already edded
+					if (UsersInPending.FirstOrDefault(u => u.Id == user.Id) != null)
+						return Page();
+					UsersInPending.Add(user);
+					SessionExtension.SetObjectAsJson(HttpContext.Session, "PENDINUUSER", UsersInPending);
+				}
+
+				return Page();
+			} catch(Exception ex)
+            {
+               throw new Exception(ex.Message, ex);
             }
-            
-            return Page();
+        
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            UserId = (int)HttpContext.Session.GetInt32("ID");
-            if (!ModelState.IsValid)
-            {
+            try {
+
+				UserId = (int)HttpContext.Session.GetInt32("ID");
+				if (!ModelState.IsValid)
+				{
+					return Page();
+				}
+
+				// create group
+				CreateGroupDTO groupDTO = new CreateGroupDTO()
+				{
+					Name = GroupViewModel.Name,
+					Description = GroupViewModel.Description,
+					LeaderId = UserId
+				};
+
+				UsersInPending ??= new List<GetUserDTO>();
+				UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
+				// Get leader dto
+
+				UsersInPending.Add(await _userService.GetUserById(UserId));
+                if (UsersInPending.Count() > 5 || UsersInPending.Count() < 4)
+                {
+                    ModelState.AddModelError(string.Empty, "If you want to creating group, plase add 4 - 5 members");
+                   
+                }
+                else
+                {
+                    await _groupService.CreateGroup(groupDTO, UsersInPending);
+                    return RedirectToPage("./Index");
+                }
+
                 return Page();
+
+
+
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
-            // create group
-            CreateGroupDTO groupDTO = new CreateGroupDTO()
-            {
-                Name = GroupViewModel.Name,
-                Description = GroupViewModel.Description,
-                LeaderId = UserId
-            };
-
-            UsersInPending ??= new List<GetUserDTO>();
-            UsersInPending = SessionExtension.GetObjectFromJson<List<GetUserDTO>>(HttpContext.Session, "PENDINUUSER");
-            // Get leader dto
-
-            UsersInPending.Add(await _userService.GetUserById(UserId));
-            await _groupService.CreateGroup(groupDTO, UsersInPending);
             
-            return RedirectToPage("./Index");
         }
     }
 }
